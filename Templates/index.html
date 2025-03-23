@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conflict Prediction</title>
+    <script>
+        // JavaScript to handle dynamic population of countries based on selected region
+        const countriesByRegion = {
+            'Northern Africa': ['Morocco', 'Libya', 'Tunisia', 'Algeria', 'Egypt'],
+            'Western Africa': ['Mali', 'Burkina Faso', 'Ghana', 'Ivory Coast', 'Senegal', 'Cameroon', 'Nigeria', 'Liberia', 'Mauritania', 'Niger', 'Guinea', 'Guinea-Bissau', 'Sierra Leone', 'eSwatini', 'Togo', 'Gambia', 'Benin'],
+            'Middle Africa': ['Democratic Republic of Congo', 'Central African Republic', 'Republic of Congo', 'Gabon', 'Chad', 'Equatorial Guinea'],
+            'Eastern Africa': ['Kenya', 'Somalia', 'Ethiopia', 'Malawi', 'Uganda', 'Rwanda', 'South Sudan', 'Madagascar', 'Burundi', 'Djibouti', 'Tanzania', 'Zimbabwe'],
+            'Southern Africa': ['Angola', 'South Africa', 'Botswana', 'Mozambique', 'Namibia', 'Zambia', 'Lesotho'],
+            'Safe Countries': ['Saint Helena, Ascension and Tristan da Cunha', 'Seychelles', 'Mauritius', 'Mayotte', 'Reunion', 'Sao Tome and Principe', 'Comoros', 'Cape Verde' ]
+        };
+
+        // Function to dynamically populate country dropdown based on the selected region
+        function updateCountries() {
+            const region = document.getElementById("region").value;
+            const countrySelect = document.getElementById("country");
+            countrySelect.innerHTML = ''; // Clear current options
+            const defaultOption = document.createElement("option");
+            defaultOption.text = "Select Country";
+            countrySelect.add(defaultOption);
+
+            if (region && countriesByRegion[region]) {
+                countriesByRegion[region].forEach(country => {
+                    const option = document.createElement("option");
+                    option.value = country;
+                    option.text = country;
+                    countrySelect.add(option);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Conflict Prediction</h1>
+    
+    <form action="/predict" method="post">
+        <!-- Region Dropdown -->
+        <label for="region">Select Region:</label>
+        <select id="region" name="region" onchange="updateCountries()" required>
+            <option value="">Select Region</option>
+            <option value="Northern Africa">Northern Africa</option>
+            <option value="Western Africa">Western Africa</option>
+            <option value="Middle Africa">Middle Africa</option>
+            <option value="Eastern Africa">Eastern Africa</option>
+            <option value="Southern Africa">Southern Africa</option>
+            <option value="Safe Countries">Safe Countries</option>
+        </select>
+
+        <!-- Country Dropdown (Initially Empty) -->
+        <label for="country">Select Country:</label>
+        <select id="country" name="country" required>
+            <option value="">Select Country</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
