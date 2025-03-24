@@ -4,17 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conflict Prediction Results</title>
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: darkgrey;
+        }
+
+        /* Header styling - Light Blue */
+        .results-header {
+            background-color: darkblue;
+            color:white;
+            text-align: center;
+            padding: 10px;
+            font-size: 26px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        /* Upper Results Section - Grey Background */
+        .results-container {
+            background-color: darkgrey;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Conflict Prediction Results</h1>
-    <p><strong>Conflict Risk Level:</strong> {{ risk }}</p>
-    <p><strong>Probability of Conflict:</strong> {{ probability }}%</p>
-    <p><strong>Event Type:</strong> {{ event_type }}</p>
-    <p><strong>Conflict Summary:</strong> {{ summary }}</p>
-    
-    <!-- Display the Folium map here -->
+
+    <!-- Header with Light Blue Background -->
+    <div class="results-header">
+        Conflict Prediction Results
+    </div>
+
+    <!-- Results Section with Grey Background -->
+    <div class="results-container">
+        <p><strong>Conflict Risk Level:</strong> {{ risk }}</p>
+        <p><strong>Probability of Conflict:</strong> {{ probability }}%</p>
+        <p><strong>Event Type:</strong> {{ event_type }}</p>
+        <p><strong>Conflict Summary:</strong> {{ summary }}</p>
+    </div>
+
+    <!-- Folium Map (Unchanged) -->
     <div id="map-container">
         {{ map_html|safe }}
     </div>
+
 </body>
 </html>

@@ -6,7 +6,6 @@ import pickle
 import sys
 import io
 import folium
-from folium import plugins
 
 # ✅ Force UTF-8 Encoding for Windows
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
@@ -101,81 +100,41 @@ def classify_conflict_state(probability):
     else:
         return "Low Risk", "stable", "The Country is advisable for investment."
 
-# Function to create a map with continent-specific colors and elevated marker for selected country
-def create_map(country):
-    """Generates a Folium map with the selected country highlighted and continent-specific colors."""
-    
-    # Define continent-to-color mapping
-    continent_colors = {
-        'Africa': 'green',
-        'Asia': 'blue',
-        'Europe': 'red',
-        'North America': 'purple',
-        'South America': 'orange',
-        'Australia': 'pink',
-        'Antarctica': 'white'
-    }
+# Function to create Folium map
+def create_map(selected_country, conflict_probability):
+    # Define risk colors based on probability
+    if conflict_probability >= 75:
+        country_color = "red"  # High-risk
+    elif 40 <= conflict_probability < 75:
+        country_color = "blue"  # Medium-risk
+    else:
+        country_color = "green"  # Stable
 
-    # Define region-to-color mapping for Africa
-    africa_region_colors = {
-        'Northern Africa': 'yellow',
-        'Western Africa': 'orange',
-        'Middle Africa': 'red',
-        'Eastern Africa': 'blue',
-        'Southern Africa': 'purple',
-        'Safe Countries': 'green'
-    }
+    # Get country coordinates from precomputed averages
+    lat = country_avg_coords["latitude"].get(selected_country, 0)
+    lon = country_avg_coords["longitude"].get(selected_country, 0)
 
-    # Define regions and their countries
-    africa_regions = {
-        'Northern Africa': ['Morocco', 'Libya', 'Tunisia', 'Algeria', 'Egypt'],
-        'Western Africa': ['Mali', 'Burkina Faso', 'Ghana', 'Ivory Coast', 'Senegal', 'Cameroon', 'Nigeria', 'Liberia', 'Mauritania', 'Niger', 'Guinea', 'Guinea-Bissau', 'Sierra Leone', 'eSwatini', 'Togo', 'Gambia', 'Benin'],
-        'Middle Africa': ['Democratic Republic of Congo', 'Central African Republic', 'Republic of Congo', 'Gabon', 'Chad', 'Equatorial Guinea'],
-        'Eastern Africa': ['Kenya', 'Somalia', 'Ethiopia', 'Malawi', 'Uganda', 'Rwanda', 'South Sudan', 'Madagascar', 'Burundi', 'Djibouti', 'Tanzania', 'Zimbabwe'],
-        'Southern Africa': ['Angola', 'South Africa', 'Botswana', 'Mozambique', 'Namibia', 'Zambia', 'Lesotho'],
-        'Safe Countries': ['Saint Helena, Ascension and Tristan da Cunha', 'Seychelles', 'Mauritius', 'Mayotte', 'Reunion', 'Sao Tome and Principe', 'Comoros', 'Cape Verde']
-    }
+    # Initialize Folium Map (centered on the country)
+    folium_map = folium.Map(location=[lat, lon], zoom_start=5)
 
-    # Default latitude and longitude for all countries if not found
-    latitude = country_avg_coords["latitude"].get(country, 0)
-    longitude = country_avg_coords["longitude"].get(country, 0)
-    
-    # Create a Folium map centered around the selected country
-    folium_map = folium.Map(location=[latitude, longitude], zoom_start=6)
-    
-    # Determine the region of the selected country
-    region = None
-    for reg, countries in africa_regions.items():
-        if country in countries:
-            region = reg
-            break
-    
-    # Color the selected country green
+    # Add a marker with conflict risk information
     folium.Marker(
-        location=[latitude, longitude],
-        popup=f"{country}",
-        icon=folium.Icon(color="green", icon="info-sign", icon_size=(25, 25), angle=0)
+        [lat, lon],
+        popup=f"{selected_country}: {conflict_probability}% Conflict Probability",
+        tooltip=selected_country,
+        icon=folium.Icon(color=country_color),
     ).add_to(folium_map)
-    
-    # Color the regions within Africa
-    if region:
-        color = africa_region_colors.get(region, 'gray')
-        folium.Circle(
-            location=[latitude, longitude],
-            radius=50000,  # Radius of the circle
-            color=color,
-            fill=True,
-            fill_color=color,
-            fill_opacity=0.5
-        ).add_to(folium_map)
-    
+
     return folium_map
+
+
 
 # 🏠 Homepage Route
 @app.route("/")
 def home():
     countries = conflict_data["country"].unique()  # Get the list of unique countries
     return render_template("index.html", countries=countries)
+
 
 # Safe countries list
 safe_countries = [
@@ -266,7 +225,7 @@ def predict():
             most_common_event = "No past conflicts recorded"
 
         # ✅ Create Folium Map for the selected country
-        folium_map = create_map(country)
+        folium_map = create_map(country, recent_probability)
         map_html = folium_map._repr_html_()
 
         # ✅ Render the result page with the map
