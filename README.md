@@ -71,5 +71,12 @@
 >> * AI Chatbot for Conflict Queries - Develop an NLP-based chatbot to answer user queries on conflict trends.
 >> * Real-time Data Integration - Automate data updates from ACLED or other conflict databases via APIs that will enable creating a Predictive  Alerts System that will Send email or SMS alerts when a country’s conflict probability exceeds a dangerous threshold.
 
+### Deployment Link
+The Africa conflict prediction system was deployed in render to access the prediction service follow the link below:
+>>>> 🔗[Web_Link](https://conflict-prediction-system-2.onrender.com)
+
+### Author
+#### *** DS Martin Waweru***
+
 
 
