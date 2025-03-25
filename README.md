@@ -64,3 +64,12 @@
   <img src="https://github.com/MwangiKinyeru/Conflict-Prediction-system/blob/main/Images/Capture%201.PNG" width="45%" />
   <img src="https://github.com/MwangiKinyeru/Conflict-Prediction-system/blob/main/Images/Capture%202.PNG" width="45%" />
 </p>
+
+### Future Improvements
+>> * Expand Geographic Scope - Extend the model to predict conflicts in other regions outside Africa.
+>> * Enhanced Data Visualization - Add interactive dashboards with real-time conflict trends using Plotly or Dash. 
+>> * AI Chatbot for Conflict Queries - Develop an NLP-based chatbot to answer user queries on conflict trends.
+>> * Real-time Data Integration - Automate data updates from ACLED or other conflict databases via APIs that will enable creating a Predictive  Alerts System that will Send email or SMS alerts when a country’s conflict probability exceeds a dangerous threshold.
+
+
+
