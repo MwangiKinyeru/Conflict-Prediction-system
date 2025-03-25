@@ -11,7 +11,7 @@ import folium
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="Templates")
 
 # 🔹 Get Absolute Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
