@@ -108,7 +108,7 @@ def create_map(selected_country, conflict_probability):
     elif 40 <= conflict_probability < 75:
         country_color = "blue"  # Medium-risk
     else:
-        country_color = "green"  # Stable
+        country_color = "green"  # Stablef
 
     # Get country coordinates from precomputed averages
     lat = country_avg_coords["latitude"].get(selected_country, 0)
