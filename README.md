@@ -76,7 +76,7 @@ The Africa conflict prediction system was deployed in render to access the predi
 >>>> 🔗[Web_Link](https://conflict-prediction-system-2.onrender.com)
 
 ### Author
-#### *** DS Martin Waweru***
+#### ***DS Martin Waweru***
 
 
 
